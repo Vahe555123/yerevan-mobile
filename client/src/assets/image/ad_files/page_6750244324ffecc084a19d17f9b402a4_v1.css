@@ -1,0 +1,159 @@
+
+
+/* Start:/local/templates/adamant/components/bitrix/menu/left_menu/style.css?16381831664266*/
+.aside-nav a + ul {
+    display: none;
+    padding-left: 20px;
+}
+
+.aside-nav li {
+    list-style-type:none;
+}
+.aside-nav .depth_level_more_two {
+    color: #000;
+    font-size: 12px;
+}
+.aside-nav .depth_level_more_two  {
+    color: #000;
+    font-size: 12px;
+}
+
+.aside-nav ul li a.active ul {
+    display: block;
+}
+
+.aside-nav > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li.active > a {
+    color: #b89d38;
+}
+.aside-nav > ul > li.active > a + ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > a + ul {
+    display: none;
+}
+.aside-nav > ul > li > ul > li > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > a.active + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > a + ul {
+    padding-left: 20px;
+    margin-top: 5px;
+    list-style: none;
+}
+.aside-nav > ul > li > ul > li > ul > li > a + ul > li {}
+.aside-nav > ul > li > ul > li > ul > li > a + ul > li > a {
+    color: #000;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.aside-nav > ul > li > ul > li > ul > li > a + ul > li > a.active,
+.aside-nav > ul > li > ul > li > ul > li > a + ul > li > a:hover,
+.aside-nav > ul > li > ul > li > ul > li > a + ul > li > a:focus {
+    color: #b89d38;
+}
+
+.aside-nav > ul > li > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li.active > a {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li.active > a + ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul {
+    display: none;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a.active + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul {
+    padding-left: 20px;
+    margin-top: 5px;
+    list-style: none;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul > li {}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul > li > a {
+    color: #000;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul > li > a.active,
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul > li > a:hover,
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a + ul > li > a:focus {
+    color: #b89d38;
+}
+
+.aside-nav > ul > li > ul > li > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li.active > a {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li.active > a + ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul {
+    display: none;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li.active > a + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a.active {
+    color: #b89d38;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a.active + ul {
+    display: block;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul {
+    padding-left: 20px;
+    margin-top: 5px;
+    list-style: none;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul > li {}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul > li > a {
+    color: #000;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul > li > a.active,
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul > li > a:hover,
+.aside-nav > ul > li > ul > li > ul > li > ul > li > ul > li > a + ul > li > a:focus {
+    color: #b89d38;
+}
+
+.aside-nav > ul  li.active > ul {
+    display: block;
+}
+
+.aside-nav > ul li > a.active {
+    color: #b89d38;
+}
+/* End */
+/* /local/templates/adamant/components/bitrix/menu/left_menu/style.css?16381831664266 */

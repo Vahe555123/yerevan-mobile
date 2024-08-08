@@ -1,0 +1,73 @@
+define([
+        "jquery",
+        "slick",
+        // "main"
+    ],
+    function($) {
+        "use strict";
+
+        $(document).ready(function() {
+            function tabSwitch(e) {
+                e.preventDefault();
+                if (!$(this).hasClass('selected')) {
+                    $(this).parents('.tab_buttons').find('a').removeClass('selected');
+                    $(this).parents('.tab_section').find('.tab_block').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('.tab_block.' + $(this).data('tab')).addClass('selected');
+                }
+            }
+
+
+
+
+            if ($('.main_slider .slide_block').length > 1) {
+                $('.main_slider').slick({
+                    autoplay: true,
+                    arrows: false,
+                    dots: true
+                })
+            };
+            $('.products_section .tab_buttons a').click(tabSwitch);
+
+            if ($('.brands_list').length > 0) {
+                var sliderLength = $('.brands_list .brand_block').length;
+
+                $('.brands_list').on('init', function(event, slick) {
+                    if ($('.brand_block.slick-active').length == sliderLength) {
+                        $('.slider_indicator span').width('100%')
+                    } else {
+                        $('.slider_indicator span').width(1 / sliderLength * 100 + '%');
+                    }
+                });
+                $('.brands_list').slick({
+                    slidesToShow: 6,
+                    responsive: [{
+                            breakpoint: 1200,
+                            settings: {
+                                slidesToShow: 5
+                            }
+                        },
+                        {
+                            breakpoint: 960,
+                            settings: {
+                                slidesToShow: 4,
+                                arrows: false
+                            }
+                        },
+                        {
+                            breakpoint: 576,
+                            settings: {
+                                slidesToShow: 3,
+                                arrows: false
+                            }
+                        }
+                    ]
+                });
+
+                $('.brands_list').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+                    $('.slider_indicator span').width((nextSlide + 1) / sliderLength * 100 + '%');
+                })
+            }
+
+        })
+    })

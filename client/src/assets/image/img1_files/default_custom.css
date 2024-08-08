@@ -1,0 +1,26 @@
+.default_page .page_head_block .large_title,
+.default_page .page_head_block .standard_text {
+    max-width: 100% !important;
+}
+
+.default_page .page_head_block p {
+    margin: 0 !important;
+}
+
+.default_page p {
+    margin: 0 !important;
+}
+
+@media screen and (min-width: 768px) {
+    .default_page .page_head_block p {
+        font-size: 140%;
+        line-height: 23px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .default_page .page_head_block p {
+        font-size: 120%;
+        line-height: 20px;
+    }
+}

@@ -1,0 +1,391 @@
+define([
+        "jquery",
+        "masonry",
+        // "bootstrap",
+        "select",
+        "slick",
+        "scrollbar",
+        "validator",
+        // "popper.js",
+        // "datepickerb"
+    ],
+    function($, Masonry) {
+        "use strict";
+
+        // $('.details_info .tab_buttons a').click(tabSwitch);
+        //
+        // function tabSwitch(e) {
+        //     e.preventDefault();
+        //     if(!$(this).hasClass('selected')) {
+        //         $(this).parents('.tab_buttons').find('a').removeClass('selected');
+        //         $(this).parents('.tab_section').find('.tab_block').removeClass('selected');
+        //         $(this).addClass('selected');
+        //         $('.tab_block.'+$(this).data('tab')).addClass('selected');
+        //     }
+        // }
+
+
+        function droplist(dropButton, droplist, dropItem, dropElement) {
+            if (dropButton.parents(dropItem).hasClass('opened')) {
+                dropButton.parents(dropItem).removeClass('opened').find(dropElement).slideUp(300);
+            } else {
+                dropButton.parents(droplist).find('.opened').removeClass('opened');
+                dropButton.parents(droplist).find(dropElement).slideUp(300);
+                dropButton.parents(dropItem).addClass('opened').find(dropElement).stop(true, true).slideDown(300);
+                setTimeout(function() {
+                    if ($(droplist).find('.opened').length > 0) {
+                        if (dropButton.parents(dropItem).offset().top < $(document).scrollTop()) {
+                            $('body,html').animate({ scrollTop: dropButton.parents(dropItem).offset().top }, 300);
+                        }
+                    }
+                }, 300)
+            }
+
+        }
+
+
+        //contact functions
+        //contact map function
+        var map = null;
+        var markers = [];
+        var infowindows = [];
+
+        function mapInitalize() {
+            var _icon = $('.map_block').data('icon');
+            let icon = {
+                url: _icon, // url
+                scaledSize: new google.maps.Size(60, 70),
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 11,
+                scrollwheel: false,
+                center: { lat: 40.497558, lng: 44.502323 },
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+            });
+
+            $(".branch").each(function(i, e) {
+                var _coords = $(e).data('coords');
+                var _title = $(e).data('title');
+                var _address = $(e).data('address');
+                var _link = $(e).data('link');
+                var _link_title = $(e).data('link-title');
+                var _phone = $(e).data('phone');
+                var _marker = $(e).data('region');
+                var positions = _coords.split(",");
+                var marker = new google.maps.Marker({
+                    position: { lat: positions[0] * 1, lng: positions[1] * 1 },
+                    map: map,
+                    icon: icon,
+                    additional: { type: _marker }
+                });
+
+                var contentString = "<div class=" + "iw_content" + ">" +
+                    '<div class="iw_branch_name">' + _title + '</div>' +
+                    '<div class="iw_branch_address">' + _address + '</div>' +
+                    '<div class="iw_branch_phone">' + _phone + '</div>' +
+                    '</div>';
+
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+
+                marker.addListener('click', function() {
+
+                    for (var k = 0; k < infowindows.length; k++) {
+                        infowindows[k].close();
+                    }
+
+                    infowindow.open(map, marker);
+
+                });
+
+                markers.push(marker);
+                infowindows.push(infowindow);
+                $(this).data('marker', marker);
+
+            });
+
+            $('.branch').click(function(e) {
+                e.preventDefault();
+                if ($(this).hasClass('selected')) {
+                    showAllMarkers(markers);
+                    fitToMarkers(markers);
+                } else {
+                    $('html, body').animate({
+                        scrollTop: $("#map").offset().top
+                    }, 1000);
+                    var _coords = $(this).data('coords');
+                    var positions = _coords.split(",");
+                    var center = { lat: positions[0] * 1, lng: positions[1] * 1 };
+                    map.setZoom(16);
+                    map.setCenter(center);
+                    let _marker = $(this).data('marker');
+                    google.maps.event.trigger(_marker, 'click');
+                }
+            });
+
+            var fitToMarkers = function(markers) {
+                var bounds = new google.maps.LatLngBounds();
+                for (var i = 0; i < markers.length; i++) {
+                    if (markers[i].getMap() != null) {
+                        bounds.extend(markers[i].getPosition());
+                    }
+                }
+                map.fitBounds(bounds);
+                $(window).trigger('resize');
+            };
+
+            fitToMarkers(markers);
+
+            var showAllMarkers = function(markers) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(map);
+                }
+            }
+
+
+            google.maps.event.addDomListener(window, "resize", function() {
+                if ($('.branch').length > 0) {
+                    //	map.setZoom(16);
+                    //	map.setCenter(center);
+                } else {
+                    fitToMarkers(markers);
+                }
+
+            });
+
+
+            if (markers.length <= 1) {
+                map.setZoom(16);
+            }
+        }
+
+
+        function detectActiveTab() {
+            if (window.location.hash) {
+                setTimeout(function() {
+                    var $selected = window.location.hash.substring(1);
+                    $('.contact_page .info_list a[data-tab="' + $selected + '"]').trigger('click');
+                }, 500).document.location.hash = '';
+            }
+        }
+
+        var initSelect = setInterval(function() {
+            if ($('.select').length > 0 && !$('.select').hasClass('select2-hidden-accessible')) {
+                $('.select').select2({
+                        minimumResultsForSearch: Infinity
+                    })
+                    // clearInterval(initSelect);
+            }
+            if ($('.swatch-select').length > 0 && !$('.swatch-select').hasClass('select2-hidden-accessible')) {
+                $('.swatch-select').select2({
+                        minimumResultsForSearch: Infinity
+                    })
+                    // clearInterval(initSelect);
+            }
+
+            $('.select').each(function(i, element) {
+                if (!$(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2({
+                        minimumResultsForSearch: Infinity
+                    })
+                }
+                var optionExists = $(element).find("option").length > 0;
+                // var optionExists = ($('#columnsAvailable option[value=' + $(this).val() + ']').length > 0);
+                //
+                if (!optionExists) {
+                    $(element).append("<option value=''>Select Option</option>");
+                }
+            })
+
+            if ($('.payment-method._active .payment-method-content').length > 0) {
+                $('.payment-method._active .payment-method-content').css('display', 'block')
+            }
+
+            // if(window.location.hash == '#shipping') {
+            //     $('.totals.shipping').css('display', 'none')
+            // } else {
+            //     $('.totals.shipping').css('display', 'block')
+            // }
+
+        }, 3000)
+
+        $(document).ready(function() {
+            $(document).on('click', '.decrease_btn, .increase_btn', function() {
+                var refreshBtn = $(this).parents('.qty').find('.icon_refresh');
+                $(refreshBtn).css('display', 'block')
+            })
+
+
+            $(document).on('click', '.filter-clear', function(e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                window.location.href = href;
+            })
+
+            $('.faq_list .question_block').click(function() {
+                droplist($(this), '.faq_list', 'li', '.answer_block');
+            });
+            if ($('.faq_list').length > 0) {
+                $('.faq_list > li').eq(0).find('.question_block').trigger('click');
+            }
+
+
+
+
+
+            //contact js
+            //contact map
+            if ($('#map').length > 0) {
+                mapInitalize();
+            }
+
+            //scroll in map
+            $(".branch").click(function() {
+                $('html, body').animate({
+                    scrollTop: $(".map_block").offset().top - 200,
+                }, 2000);
+                document.location.hash = ''
+            });
+
+            if ($('.contact_page .info_block').length > 0) {
+                detectActiveTab();
+            }
+
+            //listing page
+            // if($('select.sorter-options').length > 0) {
+            //     $('select.sorter-options').select2({
+            //         minimumResultsForSearch: Infinity
+            //     })
+            // };
+
+            if ($('select').length > 0) {
+                $('select option')
+                    .filter(function() {
+                        return !this.value || $.trim(this.value).length == 0 || $.trim(this.text).length == 0;
+                    })
+                    .remove();
+
+                $('select').select2({
+                    minimumResultsForSearch: Infinity
+                })
+            };
+
+            if ($('.filter-options-content .items:not(.grid_type)').length > 0) {
+                var openText = $('.filter-content').data('alltext');
+                $('.filter-options-content .items:not(.grid_type)').each(function() {
+                    if ($(this).find('li').length > 5) {
+                        var anotherOptionsCount = $(this).find('li').length - 5
+                        $(this).after('<span class="more_opts_btn icon_down">' + openText + ' + ' + anotherOptionsCount + '</span>');
+                    }
+                })
+            }
+            $(document).on('click', '.more_opts_btn', function() {
+                $(this).prev('.items').addClass('all_showed');
+                $(this).remove();
+            });
+
+            $('.filter_mob_btn').click(function(e) {
+                e.preventDefault();
+                $('body').toggleClass('filter_opened');
+            })
+
+            $(document).on('click', '.payment-method-title', function(e) {
+                // e.preventDefault();
+                $('.payment-method-content').css('display', 'none')
+                $(this).parents('.payment-method').find('.payment-method-content').css('display', 'block');
+            })
+
+            $(document).on('click', '.item.product.product-item a', function(e) {
+                // e.preventDefault();
+                var href = $(this).attr('href');
+                window.location.href = href;
+            })
+
+
+            //filter price range
+            $('.price_range input').on('input', function() {
+                var startVal = 0;
+                var endVal = 0;
+
+                var minInput = $('.price_from');
+                var maxInput = $('.price_to');
+                if ($(this).hasClass('price_from')) {
+                    startVal = $(this).val();
+                } else {
+                    startVal = minInput.val();
+                }
+                if ($(this).hasClass('price_to')) {
+                    endVal = $(this).val();
+                } else {
+                    endVal = maxInput.val();
+                }
+
+                minInput.val(startVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ""));
+                maxInput.val(endVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ""));
+
+                console.log(minInput.val(), maxInput.val())
+
+                var _href = $("#filter_price_by").data("href");
+                const url = new URL(_href);
+                let params = new URLSearchParams(url.search);
+
+                if (params.has('price') === true) {
+                    params.set('price', startVal + "-" + endVal);
+                } else {
+                    params.append('price', startVal + "-" + endVal);
+                }
+                var newUrl = _href.split("?")[0] + "?" + params.toString();
+                $("#filter_price_by").data("href", newUrl);
+            });
+
+            $(document).on('click', '#filter_price_by', function() {
+                window.location = $(this).data('href');
+            });
+
+            // $('.price').each(function(i, x){
+            //     var price = $(x).html();
+            //     var price = price.match(/\d/g);
+            //     price = price.join("");
+            //     console.log(price)
+            //     $(x).html(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "))
+            // })
+
+            // $(document).on('click', '.swatch-option', function(e){
+            //
+            //     // if ($(this).hasClass('selected')) {
+            //     //     $(this).removeClass('selected');
+            //     // }
+            //
+            //     if (!$(this).hasClass('checked')) {
+            //         $(this).addClass('checked');
+            //         // $(this).closest('.swatch-attribute-options').find('.swatch-option').removeClass('checked');
+            //     } else {
+            //         $(this).removeClass('checked');
+            //         $(this).removeClass('selected');
+            //         $(this).attr('aria-checked', false);
+            //     }
+            // })
+
+            // $(document).delegate(".cart_title", "click", function(){
+            //     alert('you clicked me again!');
+            // });
+
+            // $(document).on('click', '.cart_title', function(e){
+            //     // e.preventDefault();
+            //     alert(123)
+            //     alert($(this).attr('href'))
+            // })
+
+
+            // if($('select.select').length > 0) {
+            //     console.log($('select.select'))
+            //     $('select.select').select2({
+            //         minimumResultsForSearch: Infinity
+            //     })
+            // };
+        })
+    })
